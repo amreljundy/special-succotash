@@ -1,14 +1,25 @@
 function extractNumbers() {
-    let inputText = document.getElementById("inputText").value;
+    let inputText = document.getElementById("inputText").value.trim();
     
-    // استخراج جميع الأرقام التي تبدأ بـ +966 أو 966 أو 05
-    let numbers = inputText.match(/\b(?:\+?966|0)5\d{8}\b/g);
-    
-    // إزالة التكرارات إن وجدت
-    let uniqueNumbers = numbers ? [...new Set(numbers)] : [];
+    if (inputText === "") {
+        alert("⚠️ الرجاء إدخال نص يحتوي على أرقام جوال.");
+        return;
+    }
 
-    // عرض الأرقام المستخرجة أو رسالة في حالة عدم العثور على أرقام
-    document.getElementById("output").textContent = uniqueNumbers.length > 0 ? uniqueNumbers.join("\n") : "لم يتم العثور على أرقام.";
+    // استخراج جميع الأرقام السعودية التي تبدأ بـ +966 أو 966 أو 05
+    let numbers = inputText.match(/\b(?:\+?966|0)5\d{8}\b/g);
+
+    if (!numbers || numbers.length === 0) {
+        alert("❌ لم يتم العثور على أرقام جوال في النص!");
+        document.getElementById("output").textContent = "لم يتم العثور على أرقام.";
+        return;
+    }
+
+    // إزالة التكرارات وعرض الأرقام
+    let uniqueNumbers = [...new Set(numbers)];
+    document.getElementById("output").textContent = uniqueNumbers.join("\n");
+
+    console.log("📜 الأرقام المستخرجة:", uniqueNumbers);
 }
 
 function copyToClipboard() {
@@ -19,7 +30,7 @@ function copyToClipboard() {
         return;
     }
 
-    // استخدام Clipboard API لضمان النسخ بطريقة موثوقة
+    // استخدام Clipboard API للنسخ
     navigator.clipboard.writeText(outputText).then(() => {
         alert("✅ تم نسخ الأرقام إلى الحافظة!");
     }).catch(err => {
