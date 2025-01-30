@@ -1,29 +1,30 @@
-function extractNumbers() {
-    let inputText = document.getElementById("inputText").value;
-    
-    // استخراج جميع الأرقام التي تبدأ بـ +966 أو 966 أو 05
-    let numbers = inputText.match(/\b(?:\+?966|0)5\d{8}\b/g);
-    
-    // إزالة التكرارات إن وجدت
-    let uniqueNumbers = numbers ? [...new Set(numbers)] : [];
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>استخراج أرقام الجوال</title>
+    <style>
+        body { font-family: Arial, sans-serif; direction: rtl; text-align: center; }
+        textarea { width: 90%; height: 150px; margin-bottom: 10px; }
+        button { padding: 10px 20px; background-color: #28A745; color: white; border: none; cursor: pointer; margin: 5px; }
+        button:hover { background-color: #218838; }
+        .output { margin-top: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
 
-    // عرض الأرقام المستخرجة أو رسالة في حالة عدم العثور على أرقام
-    document.getElementById("output").textContent = uniqueNumbers.length > 0 ? uniqueNumbers.join("\n") : "لم يتم العثور على أرقام.";
-}
+    <h2>📄 أدخل النص لاستخراج أرقام الجوال</h2>
+    <textarea id="inputText" placeholder="انسخ النص هنا..."></textarea><br>
+    <button onclick="extractNumbers()">📌 استخراج الأرقام</button>
+    <button onclick="copyToClipboard()">📋 نسخ الأرقام</button>
 
-function copyToClipboard() {
-    let outputText = document.getElementById("output").textContent.trim();
+    <div class="output">
+        <h3>📜 الأرقام المستخرجة:</h3>
+        <pre id="output"></pre>
+    </div>
 
-    if (outputText === "" || outputText === "لم يتم العثور على أرقام.") {
-        alert("⚠️ لا توجد أرقام لنسخها!");
-        return;
-    }
+    <script src="script.js"></script>
 
-    // استخدام Clipboard API لضمان النسخ بطريقة موثوقة
-    navigator.clipboard.writeText(outputText).then(() => {
-        alert("✅ تم نسخ الأرقام إلى الحافظة!");
-    }).catch(err => {
-        console.error("خطأ أثناء النسخ:", err);
-        alert("❌ لم يتم النسخ، الرجاء المحاولة مرة أخرى!");
-    });
-}
+</body>
+</html>
